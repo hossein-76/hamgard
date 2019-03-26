@@ -26,7 +26,7 @@ def login(request):
 
 @require_http_methods(['POST'])
 def signup(request):
-    data = json.load(request.body)
+    data = json.loads(request.body)
     username = data.get('username')
     password = data.get('password')
     phone_number = data.get('phone_number')
