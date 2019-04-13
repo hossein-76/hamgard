@@ -1,8 +1,5 @@
-from django.urls import path
-from .authenticate import *
+from django.urls import path, include
 
 urlpatterns = [
-    path('login/', login),
-    path('logout/', logout),
-    path('signup/', signup)
+    path('api/', include('account.api.urls'))
 ]
