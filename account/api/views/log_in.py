@@ -2,9 +2,11 @@ import json
 
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def log_in(request):
     data = json.loads(request.body)
@@ -18,5 +20,5 @@ def log_in(request):
         p = False
     else:
         p = True
-    jwt_token = user.login_user(remember_me=p)
-    return JsonResponse({"jwt_token": "token " + jwt_token}, status=200)
+    token = user.login_user(remember_me=p)
+    return JsonResponse({"jwt_token": "token " + token}, status=200)
