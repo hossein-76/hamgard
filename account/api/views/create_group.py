@@ -3,19 +3,19 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from ...models import *
+from .utils import get_user, send_invitation_to_nonusers
 
 
+@get_user
 @csrf_exempt
 @require_http_methods(["POST"])
-def create_group(request):
+def create_group(request, creator):
     data = json.loads(request.body)
 
-    token = data.get("token")
     name = data.get("name")
     emails = data.get("emails")
     group_type = data.get('type')
 
-    creator = User.objects.filter(token=token).first()
     if creator is None:
         return JsonResponse({"message": "User is None."}, status=400)
 
@@ -33,10 +33,6 @@ def create_group(request):
                          "type": group_type,
                          "current members": [member.username for member in members],
                          "invitation sent to": unregistered_members})
-
-
-def send_invitation_to_nonusers(emails):
-    pass
 
 
 def create_group_in_db(creator, name, type, members):

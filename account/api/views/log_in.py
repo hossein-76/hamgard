@@ -13,12 +13,18 @@ def log_in(request):
     username = data.get('username')
     password = data.get('password')
     remember_me = data.get("remember_me")
+
+    if username is None or password is None or remember_me is None:
+        return JsonResponse({"message": "invalid params give"}, status=400)
+
     user = authenticate(username=username, password=password)
     if not user:
-        return JsonResponse({"message": "incorrect username or password"}, status=400)
+        return JsonResponse({"message": "incorrect username or password"}, status=404)
+
     if not remember_me:
         p = False
     else:
         p = True
+
     token = user.login_user(remember_me=p)
-    return JsonResponse({"jwt_token": "token " + token}, status=200)
+    return JsonResponse({"token": "token " + token}, status=200)

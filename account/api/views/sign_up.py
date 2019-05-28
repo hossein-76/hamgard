@@ -14,10 +14,28 @@ def sign_up(request):
     username = data.get('username')
     password = data.get('password')
     phone_number = data.get('phone_number')
-    user = User(username=username, password=make_password(password), mobile_number=phone_number)
+    first_name = data.get("first_name")
+    last_name = data.get("last_name")
+    email = data.get("email")
+
+    if (username is None)\
+            or (password is None)\
+            or (phone_number is None)\
+            or (first_name is None)\
+            or (last_name is None)\
+            or (email is None):
+        return JsonResponse({"message": "invalid params give"}, status=400)
+
+    user = User(first_name=first_name,
+                last_name=last_name,
+                email=email,
+                username=username,
+                password=make_password(password),
+                mobile_number=phone_number,
+                )
     try:
         user.save()
     except IntegrityError:
         return JsonResponse({'message': "Username already taken."}, status=400)
-    jwt_token = user.login_user(remember_me=False)
-    return JsonResponse({'jwt_token': "token " + jwt_token})
+    token = user.login_user(remember_me=False)
+    return JsonResponse({'token': "token " + token})
