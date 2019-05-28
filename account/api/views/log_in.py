@@ -26,5 +26,8 @@ def log_in(request):
     else:
         p = True
 
+    if user.token is not None:
+        return JsonResponse({"token": "token " + user.token})
+
     token = user.login_user(remember_me=p)
     return JsonResponse({"token": "token " + token}, status=200)
