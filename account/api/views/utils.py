@@ -1,17 +1,22 @@
 from account.models import User
+from django.http import JsonResponse
 
 
 def get_user(func):
 
     def inner(request, *args, **kwargs):
         head = request.META
-        token = head.get('HTTP_TOKEN').split()[1]
+        try:
+            token = head.get('HTTP_TOKEN').split()[1]
+        except AttributeError:
+            return JsonResponse({"message": "token not provided in header."}, status=400)
+
         user = User.objects.filter(token=token)
 
         if len(user) == 1:
             user = user.first()
         else:
-            user = None
+            return JsonResponse({"message": "user not found"}, status=404)
 
         return func(request, user, *args, ** kwargs)
 

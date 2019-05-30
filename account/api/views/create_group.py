@@ -16,9 +16,6 @@ def create_group(request, creator):
     emails = data.get("emails")
     group_type = data.get('type')
 
-    if creator is None:
-        return JsonResponse({"message": "User is None."}, status=400)
-
     members = User.objects.filter(email__in=emails)
     unregistered_members = emails
     for user in members:
@@ -31,8 +28,8 @@ def create_group(request, creator):
                          "group id": group_id,
                          "name": name,
                          "type": group_type,
-                         "current members": [member.username for member in members],
-                         "invitation sent to": unregistered_members})
+                         "Added members": [member.username for member in members],
+                         "Invited to Hamgard": unregistered_members})
 
 
 def create_group_in_db(creator, name, type, members):
