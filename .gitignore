@@ -6,5 +6,7 @@
 **/.idea
 **/*.pyc
 **/.sqlite3
-**/__pycache__
+**/__pycache__/
 __pycache__/
+hamgard/__pycache__/settings.cpython-36.pyc
+test.py
