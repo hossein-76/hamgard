@@ -4,9 +4,10 @@ from django.contrib.auth.hashers import make_password
 from django.http.response import JsonResponse
 from django.db.utils import IntegrityError
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 
-
+@csrf_exempt
 @require_http_methods(['POST'])
 def login(request):
     data = json.loads(request.body)
@@ -24,6 +25,7 @@ def login(request):
     return JsonResponse({"jwt_token": "token " + jwt_token}, status=200)
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def signup(request):
     data = json.loads(request.body)
@@ -39,6 +41,7 @@ def signup(request):
     return JsonResponse({'jwt_token': "token " + jwt_token})
 
 
+@csrf_exempt
 @require_http_methods(['POST'])
 def logout(request):
     data = json.loads(request.body)
