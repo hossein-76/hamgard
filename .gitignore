@@ -224,9 +224,18 @@ dmypy.json
 **/.venv
 
 **/.idea
+<<<<<<< HEAD
 
 **/*.pyc
 **/__pycache__/
 __pycache__/
 
 **/__pycache__/**
+=======
+**/*.pyc
+**/.sqlite3
+**/__pycache__/
+__pycache__/
+hamgard/__pycache__/settings.cpython-36.pyc
+test.py
+>>>>>>> cfa878d6c4fb6fad1aaac670a1296ed06788449e

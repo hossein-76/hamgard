@@ -46,7 +46,10 @@ class User(AbstractUser):
             return self.token
 
     def logout_user(self):
+        print(1, self.token)
         self.token = None
+        self.save()
+        print(2, self.token)
 
     @property
     def expired(self):
